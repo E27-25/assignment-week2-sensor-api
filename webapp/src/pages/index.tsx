@@ -27,9 +27,6 @@ type SensorData = {
 
 const fetchSensors = async () => {
   const response = await axios.get("/sensors?limit=50", {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_API_SECRET}`,
-    },
     baseURL: import.meta.env.VITE_API_URL,
   });
   return response.data;
