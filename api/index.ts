@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import apiRouter from "./routes/api.js";
+import apiRouter from "./src/routes/api.js";
 
 const app = new Hono();
 
