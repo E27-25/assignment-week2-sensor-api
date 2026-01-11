@@ -5,8 +5,12 @@ Here are some example requests to test your sensor API:
 ## 1. Health Check
 
 ```bash
-curl http://localhost:3000/api/v1/health \
-  -H "Authorization: Bearer your_secret_key"
+curl http://localhost:3000/api/v1/health
+```
+
+Production:
+```bash
+curl https://assignment-week2-sensor-api-e78v.vercel.app/api/v1/health
 ```
 
 ## 2. Create Sensor Readings (POST)
@@ -14,7 +18,18 @@ curl http://localhost:3000/api/v1/health \
 ### Temperature Reading
 ```bash
 curl -X POST http://localhost:3000/api/v1/sensors \
-  -H "Authorization: Bearer your_secret_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sensorName": "Temperature Sensor",
+    "sensorType": "DHT22",
+    "value": 25.5,
+    "unit": "°C"
+  }'
+```
+
+Production:
+```bash
+curl -X POST https://assignment-week2-sensor-api-e78v.vercel.app/api/v1/sensors \
   -H "Content-Type: application/json" \
   -d '{
     "sensorName": "Temperature Sensor",
@@ -27,7 +42,6 @@ curl -X POST http://localhost:3000/api/v1/sensors \
 ### Humidity Reading
 ```bash
 curl -X POST http://localhost:3000/api/v1/sensors \
-  -H "Authorization: Bearer your_secret_key" \
   -H "Content-Type: application/json" \
   -d '{
     "sensorName": "Humidity Sensor",
@@ -40,7 +54,6 @@ curl -X POST http://localhost:3000/api/v1/sensors \
 ### Light Sensor Reading
 ```bash
 curl -X POST http://localhost:3000/api/v1/sensors \
-  -H "Authorization: Bearer your_secret_key" \
   -H "Content-Type: application/json" \
   -d '{
     "sensorName": "Light Sensor",
@@ -53,7 +66,6 @@ curl -X POST http://localhost:3000/api/v1/sensors \
 ### Pressure Sensor Reading
 ```bash
 curl -X POST http://localhost:3000/api/v1/sensors \
-  -H "Authorization: Bearer your_secret_key" \
   -H "Content-Type: application/json" \
   -d '{
     "sensorName": "Pressure Sensor",
@@ -66,43 +78,42 @@ curl -X POST http://localhost:3000/api/v1/sensors \
 ## 3. Get All Sensor Readings
 
 ```bash
-curl http://localhost:3000/api/v1/sensors \
-  -H "Authorization: Bearer your_secret_key"
+curl http://localhost:3000/api/v1/sensors
+```
+
+Production:
+```bash
+curl https://assignment-week2-sensor-api-e78v.vercel.app/api/v1/sensors
 ```
 
 ## 4. Filter by Sensor Name
 
 ```bash
-curl "http://localhost:3000/api/v1/sensors?name=Temperature%20Sensor" \
-  -H "Authorization: Bearer your_secret_key"
+curl "http://localhost:3000/api/v1/sensors?name=Temperature%20Sensor"
 ```
 
 ## 5. Filter by Sensor Type
 
 ```bash
-curl "http://localhost:3000/api/v1/sensors?type=DHT22" \
-  -H "Authorization: Bearer your_secret_key"
+curl "http://localhost:3000/api/v1/sensors?type=DHT22"
 ```
 
 ## 6. Limit Results
 
 ```bash
-curl "http://localhost:3000/api/v1/sensors?limit=10" \
-  -H "Authorization: Bearer your_secret_key"
+curl "http://localhost:3000/api/v1/sensors?limit=10"
 ```
 
 ## 7. Get Sensor Reading by ID
 
 ```bash
-curl http://localhost:3000/api/v1/sensors/1 \
-  -H "Authorization: Bearer your_secret_key"
+curl http://localhost:3000/api/v1/sensors/1
 ```
 
 ## 8. Delete Sensor Reading
 
 ```bash
-curl -X DELETE http://localhost:3000/api/v1/sensors/1 \
-  -H "Authorization: Bearer your_secret_key"
+curl -X DELETE http://localhost:3000/api/v1/sensors/1
 ```
 
 ## Creating Mock Data Script
@@ -113,14 +124,35 @@ You can create a bash script to generate mock sensor data:
 #!/bin/bash
 
 API_URL="http://localhost:3000/api/v1/sensors"
-API_SECRET="your_secret_key"
 
 # Generate random temperature data
 for i in {1..20}; do
   TEMP=$(awk -v min=20 -v max=30 'BEGIN{srand(); print min+rand()*(max-min)}')
   
   curl -X POST $API_URL \
-    -H "Authorization: Bearer $API_SECRET" \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"sensorName\": \"Temperature Sensor\",
+      \"sensorType\": \"DHT22\",
+      \"value\": $TEMP,
+      \"unit\": \"°C\"
+    }"
+  
+  sleep 1
+done
+```
+
+For production:
+```bash
+#!/bin/bash
+
+API_URL="https://assignment-week2-sensor-api-e78v.vercel.app/api/v1/sensors"
+
+# Generate random temperature data
+for i in {1..20}; do
+  TEMP=$(awk -v min=20 -v max=30 'BEGIN{srand(); print min+rand()*(max-min)}')
+  
+  curl -X POST $API_URL \
     -H "Content-Type: application/json" \
     -d "{
       \"sensorName\": \"Temperature Sensor\",
@@ -147,10 +179,9 @@ import time
 import random
 
 API_URL = "http://localhost:3000/api/v1/sensors"
-API_SECRET = "your_secret_key"
+# For production: API_URL = "https://assignment-week2-sensor-api-e78v.vercel.app/api/v1/sensors"
 
 headers = {
-    "Authorization": f"Bearer {API_SECRET}",
     "Content-Type": "application/json"
 }
 
