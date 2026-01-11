@@ -124,7 +124,7 @@ function IndexPage() {
                           }
                           return "";
                         }}
-                        formatter={(value, name, item) => (
+                        formatter={(value, _name, item) => (
                           <>
                             <div className="flex flex-col gap-1">
                               <span className="text-muted-foreground">
