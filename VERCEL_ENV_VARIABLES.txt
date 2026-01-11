@@ -1,0 +1,157 @@
+╔════════════════════════════════════════════════════════════════╗
+║          🔧 VERCEL DEPLOYMENT - ENVIRONMENT VARIABLES          ║
+╚════════════════════════════════════════════════════════════════╝
+
+⚠️  IMPORTANT: You need to set these environment variables in Vercel!
+
+╔════════════════════════════════════════════════════════════════╗
+║                    API DEPLOYMENT (Root: api/)                 ║
+╚════════════════════════════════════════════════════════════════╝
+
+Add these environment variables when deploying the API:
+
+1. DATABASE_URL
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Value: Your PostgreSQL connection string from Neon or Vercel
+   
+   Example:
+   postgresql://username:password@ep-xxx-yyy.us-east-2.aws.neon.tech/dbname?sslmode=require
+   
+   Get it from:
+   • Neon.tech: https://neon.tech (Recommended - Free)
+   • Vercel Postgres: Storage → Create Database
+   
+2. API_SECRET
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Value: A secret key for API authentication
+   
+   Example:
+   my_super_secret_key_12345_change_this_in_production
+   
+   Tips:
+   • Use a strong random string
+   • Keep it secret
+   • Use same value in webapp deployment
+
+╔════════════════════════════════════════════════════════════════╗
+║                 WEBAPP DEPLOYMENT (Root: webapp/)              ║
+╚════════════════════════════════════════════════════════════════╝
+
+Add these environment variables when deploying the webapp:
+
+1. VITE_API_URL
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Value: Your deployed API URL + /api/v1
+   
+   Example:
+   https://your-api-name.vercel.app/api/v1
+   
+   ⚠️  Deploy API FIRST, then use that URL here
+   
+2. VITE_API_SECRET
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Value: Same secret key used in API deployment
+   
+   Example:
+   my_super_secret_key_12345_change_this_in_production
+   
+   ⚠️  MUST match the API_SECRET from API deployment
+
+╔════════════════════════════════════════════════════════════════╗
+║                    📋 DEPLOYMENT CHECKLIST                     ║
+╚════════════════════════════════════════════════════════════════╝
+
+Step 1: Get PostgreSQL Database
+   [ ] Sign up at https://neon.tech
+   [ ] Create new project
+   [ ] Copy connection string
+   
+Step 2: Deploy API First
+   [ ] Go to https://vercel.com/new
+   [ ] Import: E27-25/assignment-week2-sensor-api
+   [ ] Set Root Directory: api
+   [ ] Add DATABASE_URL environment variable
+   [ ] Add API_SECRET environment variable
+   [ ] Click Deploy
+   [ ] Copy your API URL (e.g., https://xxx.vercel.app)
+   
+Step 3: Deploy Webapp
+   [ ] New Project → Same repository
+   [ ] Set Root Directory: webapp
+   [ ] Add VITE_API_URL with your API URL + /api/v1
+   [ ] Add VITE_API_SECRET (same as API_SECRET)
+   [ ] Click Deploy
+   [ ] Copy your Webapp URL
+   
+Step 4: Update CORS
+   [ ] Edit api/src/index.ts and api/index.ts locally
+   [ ] Add webapp URL to CORS origins array
+   [ ] git add . && git commit -m "Update CORS" && git push
+   [ ] Wait for automatic redeployment
+   
+Step 5: Test
+   [ ] Visit your webapp URL
+   [ ] Create test sensor data via API
+   [ ] Verify charts display correctly
+
+╔════════════════════════════════════════════════════════════════╗
+║                    🐛 TROUBLESHOOTING                          ║
+╚════════════════════════════════════════════════════════════════╝
+
+Build Failed?
+→ Check Vercel build logs
+→ Ensure Root Directory is set correctly (api or webapp)
+→ Check all dependencies are in package.json
+
+Database Connection Failed?
+→ Verify DATABASE_URL is correct
+→ Check database is accessible
+→ Ensure connection string includes ?sslmode=require
+
+CORS Error in Browser?
+→ Add webapp URL to CORS in api/src/index.ts and api/index.ts
+→ Push changes to trigger redeployment
+
+401 Unauthorized?
+→ Ensure API_SECRET matches VITE_API_SECRET
+→ Check Authorization header format
+
+No Data Showing?
+→ Create test data using API
+→ Check browser console for errors
+→ Verify VITE_API_URL is correct
+
+╔════════════════════════════════════════════════════════════════╗
+║                    🎯 QUICK COMMANDS                           ║
+╚════════════════════════════════════════════════════════════════╝
+
+Test API after deployment:
+curl https://your-api.vercel.app/api/v1/health \
+  -H "Authorization: Bearer your_api_secret"
+
+Create test sensor data:
+curl -X POST https://your-api.vercel.app/api/v1/sensors \
+  -H "Authorization: Bearer your_api_secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sensorName": "Temperature",
+    "sensorType": "DHT22",
+    "value": 25.5,
+    "unit": "°C"
+  }'
+
+╔════════════════════════════════════════════════════════════════╗
+║                    ✅ AFTER SUCCESSFUL DEPLOYMENT              ║
+╚════════════════════════════════════════════════════════════════╝
+
+Your URLs:
+• GitHub: https://github.com/E27-25/assignment-week2-sensor-api
+• API: https://[your-api].vercel.app
+• Webapp: https://[your-webapp].vercel.app
+
+Submit on Onlearn:
+1. GitHub repository URL
+2. Both live deployment URLs
+3. Screenshots of working dashboard
+
+Good luck! 🚀
