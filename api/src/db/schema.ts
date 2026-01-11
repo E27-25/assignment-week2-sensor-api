@@ -1,13 +1,12 @@
-import { sql } from "drizzle-orm";
-import { sqliteTable, integer, text, real } from "drizzle-orm/sqlite-core";
+import { pgTable, serial, text, real, timestamp } from "drizzle-orm/pg-core";
 
-export const sensorReadings = sqliteTable("sensor_readings", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const sensorReadings = pgTable("sensor_readings", {
+  id: serial("id").primaryKey(),
   sensorName: text("sensor_name").notNull(),
   sensorType: text("sensor_type").notNull(),
   value: real("value").notNull(),
   unit: text("unit"),
-  timestamp: integer("timestamp", { mode: "timestamp" }).default(sql`(cast(strftime('%s', 'now') as integer))`).notNull(),
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
 });
 
 export type SensorReading = typeof sensorReadings.$inferSelect;
