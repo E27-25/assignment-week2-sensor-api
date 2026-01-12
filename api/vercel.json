@@ -1,5 +1,6 @@
 {
   "buildCommand": "echo 'No build needed for Edge functions'",
+  "outputDirectory": "public",
   "rewrites": [
     { "source": "/(.*)", "destination": "/api" }
   ]
