@@ -4,7 +4,7 @@ import { handle } from "hono/vercel";
 import apiRouter from "./src/routes/api.js";
 
 export const config = {
-  runtime: "nodejs",
+  runtime: "edge",
 };
 
 const app = new Hono();
