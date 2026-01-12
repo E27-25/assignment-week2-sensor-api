@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import apiRouter from "./src/routes/api.js";
+import apiRouter from "../src/routes/api.js";
 
 export const config = {
   runtime: "edge",
