@@ -4,7 +4,7 @@ A full-stack IoT sensor monitoring application with a public RESTful API and rea
 
 🌐 **Live Demo**: 
 - API: https://assignment-week2-sensor-api-e78v.vercel.app
-- Webapp: https://assignment-week2-sensor-api-webapp.vercel.app
+- Webapp: https://assignment-week2-sensor-api.vercel.app
 
 📦 **GitHub Repository**: https://github.com/E27-25/assignment-week2-sensor-api
 
