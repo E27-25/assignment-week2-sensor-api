@@ -20,23 +20,11 @@ app.use(
   })
 );
 
-// Mount API routes at /api/v1
-app.route("/api/v1", apiRouter);
+// Mount API routes at /v1 (not /api/v1 since we're already under /api)
+app.route("/v1", apiRouter);
 
 // Root endpoint
 app.get("/", (c) => {
-  return c.json({
-    message: "Sensor API - Assignment Week 2",
-    version: "1.0.0",
-    endpoints: {
-      health: "/api/v1/health",
-      sensors: "/api/v1/sensors",
-    },
-  });
-});
-
-// API root endpoint
-app.get("/api", (c) => {
   return c.json({
     message: "Sensor API - Assignment Week 2",
     version: "1.0.0",
