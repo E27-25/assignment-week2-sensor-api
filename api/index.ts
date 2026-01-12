@@ -3,23 +3,27 @@ import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 import apiRouter from "./src/routes/api.js";
 
-const app = new Hono().basePath("/api");
+export const config = {
+  runtime: "nodejs",
+};
 
-// CORS middleware for production
+const app = new Hono();
+
+// CORS middleware
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000", "*"],
+    origin: "*",
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-// Mount API routes at /v1
-app.route("/v1", apiRouter);
+// Mount API routes at /api/v1
+app.route("/api/v1", apiRouter);
 
-// Root endpoint at /api
+// Root endpoint
 app.get("/", (c) => {
   return c.json({
     message: "Sensor API - Assignment Week 2",
@@ -31,5 +35,16 @@ app.get("/", (c) => {
   });
 });
 
-// Export for Vercel
+// API root endpoint
+app.get("/api", (c) => {
+  return c.json({
+    message: "Sensor API - Assignment Week 2",
+    version: "1.0.0",
+    endpoints: {
+      health: "/api/v1/health",
+      sensors: "/api/v1/sensors",
+    },
+  });
+});
+
 export default handle(app);
