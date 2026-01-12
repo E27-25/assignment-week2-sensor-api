@@ -167,7 +167,7 @@ function IndexPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.slice(0, 10).reverse().map((reading) => (
+                  {data?.slice(-10).reverse().map((reading) => (
                     <tr key={reading.id} className="border-b">
                       <td className="p-2 text-sm text-muted-foreground">
                         {reading.timestampFormatted}
