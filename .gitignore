@@ -50,3 +50,4 @@ sensor_data.db
 
 # Drizzle generated migrations (optional - some prefer to commit these)
 # drizzle/migrations/
+.env*.local
